@@ -16,14 +16,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $this->call(RoleSeeder::class);
+        $this->call([
+            RoleSeeder::class,
+            RoomSeeder::class,
+        ]);
 
-        $roleId = Role::query()->where('name', 'user')->first();
+        $userRoleId = Role::query()->where('name', 'user')->first();
+        $adminRoleId = Role::query()->where('name', 'admin')->first();
 
+
+        // ADMIN
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'role_id' => $roleId,
+            'name' => 'Admin',
+            'email' => 'admin@admin.com',
+            'role_id' => $adminRoleId,
+        ]);
+
+        // TEST USER
+        User::factory()->create([
+            'name' => 'TEST',
+            'email' => 'test@test.com',
+            'role_id' => $userRoleId,
         ]);
     }
 }

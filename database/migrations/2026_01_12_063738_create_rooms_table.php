@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('room_type');
             $table->float('price_per_day');
+            $table->text('description')->nullable();
             $table->string('status')->default('available');
             $table->timestamps();
         });

@@ -17,6 +17,8 @@ class Booking extends Model
         'total_days',
         'total_price',
         'status',
+        'room_id',
+        'user_id',
     ];
 
     public function room(): BelongsTo
