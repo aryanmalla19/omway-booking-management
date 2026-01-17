@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\RoomStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreRoomRequest;
 use App\Models\Room;
 use Illuminate\Http\Request;
 
@@ -29,18 +31,29 @@ class RoomController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRoomRequest $request)
     {
         try {
+            $data = $request->validated();
+
             $room = Room::create([
-                'room_type' => '',
-                'description' => '',
-                'price_per_day' => '',
-                'status' => '',
+                'room_type' => 'deluxe',
+                'description' => $data['description'] ?? null,
+                'price_per_day' => $data['price_per_day'],
+                'status' => RoomStatus::AVAILABLE,
             ]);
 
-            return redirect()->back()->with('success', 'Hello World');
-        } catch (\Exception) {
+            if ($request->has('images')) {
+                foreach ($data['images'] as $image) {
+                    $filePath = $image->store('images/rooms', 'public');
+                    $room->images()->create([
+                        'image_path' => $filePath,
+                    ]);
+                }
+            }
+
+            return redirect()->route('rooms.index')->with('success', 'Successfully created new Room');
+        } catch (\Exception $exception) {
             return redirect()->back()->with('error', 'Something went wrong');
         }
     }
@@ -50,7 +63,7 @@ class RoomController extends Controller
      */
     public function show(Room $room)
     {
-        //
+
     }
 
     /**
@@ -58,15 +71,37 @@ class RoomController extends Controller
      */
     public function edit(Room $room)
     {
-        //
+        return view('rooms.edit', compact('room'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Room $room)
+    public function update(StoreRoomRequest $request, Room $room)
     {
-        //
+        try {
+            $data = $request->validated();
+
+            $room->update([
+                'room_type' => 'deluxe',
+                'description' => $data['description'] ?? null,
+                'price_per_day' => $data['price_per_day'],
+                'status' => RoomStatus::AVAILABLE,
+            ]);
+
+            if ($request->has('images')) {
+                foreach ($data['images'] as $image) {
+                    $filePath = $image->store('images/rooms', 'public');
+                    $room->images()->create([
+                        'image_path' => $filePath,
+                    ]);
+                }
+            }
+
+            return redirect()->route('rooms.index')->with('success', 'Successfully created new Room');
+        } catch (\Exception $exception) {
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
     }
 
     /**
@@ -74,6 +109,12 @@ class RoomController extends Controller
      */
     public function destroy(Room $room)
     {
-        //
+        try {
+            $room->delete();
+
+            return redirect()->back()->with('success', 'Successfully deleted Room');
+        } catch (\Throwable $throwable) {
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
     }
 }

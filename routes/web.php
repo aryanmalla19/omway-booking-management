@@ -23,10 +23,10 @@ Route::get('/dashboard', DashboardController::class)
 
 
 Route::middleware('isAdmin')->group(function () {
-    Route::put('/bookings/{bookingId}/approve', [AdminBookingController::class, 'edit'])
+    Route::put('/bookings/{bookingId}/approve', [AdminBookingController::class, 'approve'])
         ->name('bookings.approve');
 
-    Route::put('/bookings/{bookingId}/reject', [AdminBookingController::class, 'edit'])
+    Route::put('/bookings/{bookingId}/reject', [AdminBookingController::class, 'reject'])
         ->name('bookings.reject');
 
     Route::delete('/bookings/{bookingId}', [AdminBookingController::class, 'destroy'])

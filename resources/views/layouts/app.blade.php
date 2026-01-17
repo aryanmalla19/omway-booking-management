@@ -32,10 +32,17 @@
                 {{ $slot }}
             </main>
         </div>
-        <script>
-{{--            @if(session(''))--}}
 
-{{--            @endif--}}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                @if(session()->has('success'))
+                    toaster.addToast('{{ session('success') }}');
+                @endif
+
+                @if(session()->has('error'))
+                    toaster.addToast('{{ session('error') }}');
+                @endif
+            });
         </script>
     </body>
 </html>

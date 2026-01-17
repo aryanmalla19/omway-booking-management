@@ -1,20 +1,20 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-300 leading-tight">
             {{ __('Create Room') }}
         </h2>
     </x-slot>
 
     <div class="py-8">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white shadow rounded-lg p-6">
+            <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
 
                 <form method="POST" action="{{ route('rooms.store') }}" enctype="multipart/form-data">
                     @csrf
 
                     <!-- Room Type -->
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">
+                        <label class="block text-sm font-medium dark:text-gray-300 text-gray-700">
                             Room Type
                         </label>
                         <input
@@ -25,13 +25,13 @@
                             placeholder="Deluxe, Single, Suite..."
                         >
                         @error('room_type')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Price Per Day -->
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">
+                        <label class="dark:text-gray-300 block text-sm font-medium text-gray-700">
                             Price Per Day (NPR)
                         </label>
                         <input
@@ -42,20 +42,20 @@
                             placeholder="1500"
                         >
                         @error('price_per_day')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <!-- Images -->
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700">
+                        <label class="dark:text-gray-300 block text-sm font-medium text-gray-700">
                             Room Images
                         </label>
                         <input
                             type="file"
                             name="images[]"
                             multiple
-                            class="mt-1 block w-full text-sm text-gray-600"
+                            class="mt-1 p-2 border rounded block w-full text-sm dark:text-gray-300 text-gray-600"
                         >
                         <p class="text-xs text-gray-500 mt-1">
                             You can upload multiple images (jpg, png, webp)
@@ -66,8 +66,13 @@
                         @enderror
 
                         @error('images.*')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
+                    </div>
+
+                    <div class="mb-6 flex flex-col">
+                        <label class="text-gray-300" for="description">Description</label>
+                        <textarea name="description" class="rounded-xl" id="description" rows="10"></textarea>
                     </div>
 
                     <!-- Submit -->

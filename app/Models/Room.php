@@ -2,16 +2,20 @@
 
 namespace App\Models;
 
+use App\Enums\RoomStatus;
+use App\Enums\RoomType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Room extends Model
 {
     /** @use HasFactory<\Database\Factories\RoomFactory> */
     use HasFactory;
+
     protected $fillable = [
         'room_type',
         'price_per_day',
@@ -19,14 +23,21 @@ class Room extends Model
         'status',
     ];
 
+    protected $casts = [
+        'room_type' => 'string',
+        'price_per_day' => 'float',
+        'description' => 'string',
+        'status' => RoomStatus::class,
+    ];
+
     public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
     }
 
-    public function images(): MorphTo
+    public function images(): MorphMany
     {
-        return $this->morphTo(Image::class);
+        return $this->morphMany(Image::class, 'imageable');
     }
 
     public function amenities(): BelongsToMany

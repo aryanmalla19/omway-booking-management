@@ -17,6 +17,10 @@ class BookingController extends Controller
         try {
             $data = $request->validated();
 
+            if (!auth()->check()) {
+                return redirect()->guest(route('login'));
+            }
+
             $room = Room::findOrFail($roomId);
 
             if($room->status === RoomStatus::BOOKED) {

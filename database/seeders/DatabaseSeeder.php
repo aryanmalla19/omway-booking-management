@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             RoleSeeder::class,
-            RoomSeeder::class,
+//            RoomSeeder::class,
         ]);
 
         $userRoleId = Role::query()->where('name', 'user')->first();
