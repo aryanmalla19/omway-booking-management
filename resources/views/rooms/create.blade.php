@@ -72,7 +72,7 @@
 
                     <div class="mb-6 flex flex-col">
                         <label class="text-gray-300" for="description">Description</label>
-                        <textarea name="description" class="rounded-xl" id="description" rows="10"></textarea>
+                        <textarea name="description" class="rounded-xl" id="description" rows="10">{{ old('description') }}</textarea>
                     </div>
 
                     <!-- Submit -->

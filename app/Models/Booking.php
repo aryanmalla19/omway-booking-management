@@ -20,6 +20,7 @@ class Booking extends Model
         'status',
         'room_id',
         'user_id',
+        'is_checked_out'
     ];
 
     protected $casts = [
@@ -30,6 +31,7 @@ class Booking extends Model
         'status' => BookingStatus::class,
         'room_id' => 'int',
         'user_id' => 'int',
+        'is_checked_out' => 'bool',
     ];
 
     public function room(): BelongsTo

@@ -44,7 +44,7 @@ class BookingController extends Controller
                 'status' => BookingStatus::PENDING->value,
             ]);
 
-            return redirect()->route('home')->with('success', 'Successfully booked');
+            return redirect()->route('home')->with('success', 'Successfully booked. Wait for Admin Approval');
         } catch (\Exception $exception) {
             return redirect()->back()->with('error', 'Something went wrong');
         }

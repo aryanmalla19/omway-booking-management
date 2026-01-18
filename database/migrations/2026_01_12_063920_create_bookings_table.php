@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('total_days');
             $table->float('total_price');
             $table->string('status')->default('pending');
+            $table->boolean('is_checked_out')->default(false);
             $table->foreignId('room_id')->constrained()->nullOnDelete();
             $table->foreignId('user_id')->constrained()->nullOnDelete();
             $table->timestamps();
