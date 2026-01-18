@@ -47,6 +47,14 @@ class User extends Authenticatable
         ];
     }
 
+    protected static function boot(): void
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->role_id = 2; // 2 is User's role id (fetch query if needed but for this it is okay)
+        });
+    }
+
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
@@ -55,5 +63,10 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this?->role?->name === 'admin';
+    }
+
+    public function isUser(): bool
+    {
+        return $this?->role?->name === 'user';
     }
 }

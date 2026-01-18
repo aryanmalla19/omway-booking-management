@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 
@@ -12,10 +13,10 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $bookings = Booking::with(['room', 'user'])
-            ->latest()
+        $bookings = Booking::with('room')
+            ->where('user_id', auth()->id())
             ->paginate(10);
 
-        return view('dashboard', compact('bookings'));
+        return view('user.dashboard', compact('bookings'));
     }
 }

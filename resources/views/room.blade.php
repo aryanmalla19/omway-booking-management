@@ -29,10 +29,9 @@
                     </div>
 
                     <div class="flex flex-wrap gap-3 text-sm">
-                        <span class="px-3 py-1 bg-gray-100 dark:bg-[#3E3E3A] rounded-full">Free Wi-Fi</span>
-                        <span class="px-3 py-1 bg-gray-100 dark:bg-[#3E3E3A] rounded-full">AC</span>
-                        <span class="px-3 py-1 bg-gray-100 dark:bg-[#3E3E3A] rounded-full">Breakfast</span>
-                        <span class="px-3 py-1 bg-gray-100 dark:bg-[#3E3E3A] rounded-full">Mountain View</span>
+                        @foreach($room->amenities as $amenity)
+                            <span class="px-3 py-1 bg-gray-100 dark:bg-[#3E3E3A] rounded-full">{{ $amenity->name }}</span>
+                        @endforeach
                     </div>
 
                 </div>
@@ -50,7 +49,7 @@
                         @csrf
                         <input type="hidden" name="room_id" value="{{ $room->id }}">
                         <div>
-                            <label class="text-sm">Check-in</label>
+                            <label class="text-white text-sm">Check In</label>
                             <input type="date" name="check_in" value="{{ old('check_in') }}"
                                    class="w-full border rounded-md px-3 py-2 mt-1">
                             @error('check_in')
@@ -59,18 +58,12 @@
                         </div>
 
                         <div>
-                            <label class="text-sm">Check-out</label>
+                            <label class="text-white text-sm">Check Out</label>
                             <input type="date" name="check_out" value="{{ old('check_out') }}"
                                    class="w-full border rounded-md px-3 py-2 mt-1">
                             @error('check_out')
                                 <span class="text-red-600">{{ $message }}</span>
                             @enderror
-                        </div>
-
-                        <!-- Total -->
-                        <div class="flex justify-between border-t pt-3 text-sm">
-                            <span>Total (2 nights)</span>
-                            <span class="font-semibold">NPR 13,000</span>
                         </div>
 
                         <!-- Button -->

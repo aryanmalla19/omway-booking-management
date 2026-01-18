@@ -70,6 +70,31 @@
                         @enderror
                     </div>
 
+                    @if($amenities->isNotEmpty())
+                        <div class="mb-6">
+                            <label class="block mb-3 text-sm font-medium text-gray-300">
+                                Amenities
+                            </label>
+
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                @foreach($amenities as $amenity)
+                                    <label class="flex items-center gap-2 p-3 border rounded-lg cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            name="amenities[]"
+                                            value="{{ $amenity->id }}"
+                                            {{ in_array($amenity->id, $room->amenities->pluck('id')->toArray()) ? 'checked' : '' }}
+                                            class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                        >
+                                        <span class="text-sm text-gray-300">
+                                        {{ $amenity->name }}
+                                    </span>
+                                    </label>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
                     <div class="mb-6 flex flex-col">
                         <label class="text-gray-300" for="description">Description</label>
                         <textarea name="description" class="rounded-xl" id="description" rows="10">{{ old('description', $room->description) }}</textarea>

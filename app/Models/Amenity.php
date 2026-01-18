@@ -8,5 +8,11 @@ class Amenity extends Model
 {
     protected $fillable = [
         'name',
+        'status',
+    ];
+
+    protected $casts = [
+        'name' => 'string',
+        'status' => 'bool',
     ];
 }

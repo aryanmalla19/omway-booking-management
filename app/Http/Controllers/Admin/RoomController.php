@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\RoomStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRoomRequest;
+use App\Models\Amenity;
 use App\Models\Room;
-use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
@@ -25,7 +25,9 @@ class RoomController extends Controller
      */
     public function create()
     {
-        return view('rooms.create');
+        $amenities = Amenity::where('status', true)->get();
+
+        return view('rooms.create', compact('amenities'));
     }
 
     /**
@@ -37,7 +39,7 @@ class RoomController extends Controller
             $data = $request->validated();
 
             $room = Room::create([
-                'room_type' => 'deluxe',
+                'room_type' => $data['room_type'],
                 'description' => $data['description'] ?? null,
                 'price_per_day' => $data['price_per_day'],
                 'status' => RoomStatus::AVAILABLE,
@@ -51,6 +53,8 @@ class RoomController extends Controller
                     ]);
                 }
             }
+
+            $room->amenities()->sync($data['amenities'] ?? []);
 
             return redirect()->route('rooms.index')->with('success', 'Successfully created new Room');
         } catch (\Exception $exception) {
@@ -71,7 +75,11 @@ class RoomController extends Controller
      */
     public function edit(Room $room)
     {
-        return view('rooms.edit', compact('room'));
+        $amenities = Amenity::where('status', true)->get();
+
+        $room->loadMissing(['images', 'amenities']);
+
+        return view('rooms.edit', compact('room', 'amenities'));
     }
 
     /**
@@ -83,7 +91,7 @@ class RoomController extends Controller
             $data = $request->validated();
 
             $room->update([
-                'room_type' => 'deluxe',
+                'room_type' => $data['room_type'],
                 'description' => $data['description'] ?? null,
                 'price_per_day' => $data['price_per_day'],
                 'status' => RoomStatus::AVAILABLE,
@@ -97,6 +105,8 @@ class RoomController extends Controller
                     ]);
                 }
             }
+
+            $room->amenities()->sync($data['amenities'] ?? []);
 
             return redirect()->route('rooms.index')->with('success', 'Successfully created new Room');
         } catch (\Exception $exception) {
